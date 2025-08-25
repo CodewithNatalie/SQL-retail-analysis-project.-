@@ -56,9 +56,9 @@ OR
 cogs IS NULL
 or
 total_sale IS NULL; 
+...
 
-
-**1. What are the total sales?**
+**1. What are the total sales?**:
   ...sql 
 
   
@@ -66,41 +66,45 @@ total_sale IS NULL;
 SELECT
 COUNT(*) 
 FROM retail_sales_analysis;
+...
 
-**2. How many customers do we have?**
+**2. How many customers do we have?**:
   ...SQL  
   
    
 SELECT
 COUNT(customer_id)
 FROM retail_sales_analysis; 
+...
 
-**3. How many unique customers do we have?**
+**3. How many unique customers do we have?**:
      ...sql
 
      
 SELECT
 COUNT(DISTINCT customer_id )
 FROM retail_sales_analysis; 
+...
 
-**4. How mant categories of items exist in the dataset below?**
+**4. How mant categories of items exist in the dataset below?**:
      ...sql
      
      
 SELECT DISTINCT category FROM retail_sales_analysis; 
-
+...
 
 ## DATA ANALYSIS FOR KEY BUSINESS PROBLEMS.
 
-**5.  Retieve all sales made on 2022-11-05?**
+**5.  Retieve all sales made on 2022-11-05?**:
      ...sql 
 
 SELECT 
 *
 from retail_sales_analysis
-WHERE sale_date = '2022-11-05'; 
+WHERE sale_date = '2022-11-05';
+...
 
- **6. Retrieve all transactions where the category is 'clothing' and quantity sold is more than 10 in the month os november 2022 ?**
+ **6. Retrieve all transactions where the category is 'clothing' and quantity sold is more than 10 in the month os november 2022 ?**:
       ...sql
    
 SELECT *
@@ -109,9 +113,10 @@ WHERE upper(category) like 'clothing%'
   AND quantity < 10
   AND sale_date >= '2022-11-01'
   AND sale_date < '2022-12-01'; 
+  ...
 
  
-**7. Culculate the total sales for each category?**
+**7. Culculate the total sales for each category?**:
      ...sql 
 
 SELECT
@@ -121,6 +126,7 @@ COUNT(*) AS toral_orders
 FROM retail_sales_analysis
 GROUP BY
 category;
+...
 
 **8. Find the avarage of all customers who purchased items from the beauty category?**
      ...sql 
@@ -131,6 +137,7 @@ ROUND(AVG(age) , 2)
 FROM retail_sales_analysis
 WHERE category = 'Beauty'
 GROUP BY gender;
+...
 
 
 **9. Find aLL transactions where the total sale > 1000?**
@@ -139,6 +146,7 @@ GROUP BY gender;
 SELECT * 
 FROM retail_sales_analysis
 WHERE total_sale > 1000;
+...
 
 **10 Find the total number of transactions made by each gender in each category?**
   ...sql
@@ -152,6 +160,7 @@ FROM retail_sales_analysis
 GROUP BY gender, category
 ORDER BY 
 category;
+...
 
 **11. Culculate the avarage sale for each month. Find the best selling month in each year?**
   ...sql
@@ -167,6 +176,7 @@ MONTH(sale_date)
 order by
 year,
 month;
+...
 
 **12. Find the top 5 customers based on the highest total sale?**
   ...sql 
@@ -178,6 +188,7 @@ COUNT(transactions_id),
 SUM(total_sale)
 FROM retail_sales_analysis
 GROUP BY customer_id;
+...
 
 **13. Find the number of unique customers who purchased items from each category?**
       ...sql
@@ -187,6 +198,7 @@ category,
 COUNT(DISTINCT customer_id)
 FROM retail_sales_analysis
 GROUP BY category;
+...
 
 **14. Create each shift and number of orders( Example morning <=12, Afternoon btwn 12 & 17, Evening > 17 )?**
   ...sql 
@@ -210,7 +222,7 @@ WHEN shift = 'Afternoon' THEN 2
 WHEN shift = 'Evening' THEN 3
 WHEN shift = 'Night' THEN 4
 END;
-
+...
 
 
 
