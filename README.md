@@ -1,68 +1,220 @@
-RETAIL SALES ANALYSIS WITH SQL.
-PROJECT OVERVIEW
+# RETAIL SALES ANALYSIS WITH SQL.
+## PROJECT OVERVIEW
+
+**PROJECT TITLE**: RETAIL-SALES-ANALYSIS
+** LEVEL**: BEGINNER
+**DATABASE**: MYSQL
+
+## OBJECTIVES
+
+1. Set up a retail sales database: Create and populate a retail sales database with the provided sales data.
+
+2. Data Cleaning: Identify and remove any records with missing or null values.
+
+3. Exploratory Data Analysis (EDA): Perform basic exploratory data analysis to understand the dataset.
+
+4. Business Analysis: Use SQL to answer specific business questions and derive insights from the sales data.
+
+   
+## PROJECT STRUCTURE
 
 This project focuses on analyzing retail sales data using SQL queries.
 The goal is to perform data cleaning, exploratory analysis, and business insights extraction from a sales dataset.
 
-The project answers key business questions such as:
+## 🔑 Features / SQL Queries
 
-1. How many customers and unique customers exist?
+## DATA EXPLORATION AND CLEANING
 
-2. What are the product categories and their sales performance?
+** Data Cleaning – handling missing values.**
+  ...sql
 
-3.Write a query to retieve all sales made on 2022-11-05?
+  
+
+SELECT * 
+FROM retail_sales_analysis
+WHERE
+transactions_id IS NULL
+OR
+sale_date IS NULL
+or
+sale_date IS NULL
+OR
+sale_time IS NULL
+or
+customer_id IS NULL
+or
+gender IS NULL
+or
+age IS NULL
+or
+category IS NULL
+or
+quantiy IS NULL
+OR
+price_per_unit IS NULL
+OR 
+cogs IS NULL
+or
+total_sale IS NULL; 
+
+
+**1. What are the total sales?**
+  ...sql 
+
+  
    
-4. Who are the top 5 customers?
+SELECT
+COUNT(*) 
+FROM retail_sales_analysis;
 
-5. What is the average monthly sales trend?
+**2. How many customers do we have?**
+  ...SQL  
+  
+   
+SELECT
+COUNT(customer_id)
+FROM retail_sales_analysis; 
 
-6. Which shifts (Morning, Afternoon, Evening, Night) have the most orders?
+**3. How many unique customers do we have?**
+     ...sql
 
-🗂️ Dataset
+     
+SELECT
+COUNT(DISTINCT customer_id )
+FROM retail_sales_analysis; 
 
-Table Name: retail_sales_analysis
+**4. How mant categories of items exist in the dataset below?**
+     ...sql
+     
+     
+SELECT DISTINCT category FROM retail_sales_analysis; 
 
-Columns include:
 
-1. transactions_id
+## DATA ANALYSIS FOR KEY BUSINESS PROBLEMS.
 
-2. sale_date
+**5.  Retieve all sales made on 2022-11-05?**
+     ...sql 
 
-3. sale_time
+SELECT 
+*
+from retail_sales_analysis
+WHERE sale_date = '2022-11-05'; 
 
-4. customer_id
+ **6. Retrieve all transactions where the category is 'clothing' and quantity sold is more than 10 in the month os november 2022 ?**
+      ...sql
+   
+SELECT *
+FROM retail_sales_analysis
+WHERE upper(category) like 'clothing%'
+  AND quantity < 10
+  AND sale_date >= '2022-11-01'
+  AND sale_date < '2022-12-01'; 
 
-5. gender
+ 
+**7. Culculate the total sales for each category?**
+     ...sql 
 
-6. age
+SELECT
+category,
+SUM(total_sale),
+COUNT(*) AS toral_orders
+FROM retail_sales_analysis
+GROUP BY
+category;
 
-7. category
+**8. Find the avarage of all customers who purchased items from the beauty category?**
+     ...sql 
 
-8. quantity
+SELECT
+gender,
+ROUND(AVG(age) , 2)
+FROM retail_sales_analysis
+WHERE category = 'Beauty'
+GROUP BY gender;
 
-9. price_per_unit
 
-10 cogs
+**9. Find aLL transactions where the total sale > 1000?**
+      ...sql
 
-11. total_sale
+SELECT * 
+FROM retail_sales_analysis
+WHERE total_sale > 1000;
 
-🔑 Features / SQL Queries
+**10 Find the total number of transactions made by each gender in each category?**
+  ...sql
 
-The SQL script covers:
 
-Data Cleaning – handling missing and duplicates values
+SELECT
+category,
+gender,
+COUNT(transactions_id)
+FROM retail_sales_analysis
+GROUP BY gender, category
+ORDER BY 
+category;
 
-Customer Analysis – total customers, unique customers, segmentation by gender.
+**11. Culculate the avarage sale for each month. Find the best selling month in each year?**
+  ...sql
+    
 
-Category Insights – sales by category, unique customers per category.
+SELECT
+YEAR(sale_date) AS year,
+MONTH(sale_date) AS month,
+AVG(total_sale) AS avg_monthly_sale
+FROM retail_sales_analysis
+GROUP BY YEAR(sale_date) ,
+MONTH(sale_date)
+order by
+year,
+month;
 
-Transaction Analysis – sales above 1000, clothing sales in November 2022, etc.
+**12. Find the top 5 customers based on the highest total sale?**
+  ...sql 
+    
 
-Trend Analysis – average sales per month, best-selling month.
+SELECT 
+customer_id,
+COUNT(transactions_id),
+SUM(total_sale)
+FROM retail_sales_analysis
+GROUP BY customer_id;
 
-Shift Analysis – Morning, Afternoon, Evening, Night order distribution.
+**13. Find the number of unique customers who purchased items from each category?**
+      ...sql
 
-Top Customers – top 5 customers by total sales.
+SELECT 
+category,
+COUNT(DISTINCT customer_id)
+FROM retail_sales_analysis
+GROUP BY category;
+
+**14. Create each shift and number of orders( Example morning <=12, Afternoon btwn 12 & 17, Evening > 17 )?**
+  ...sql 
+
+
+SELECT 
+COUNT(transactions_id), 
+CASE
+WHEN HOUR(sale_time) <= 12 THEN 'Morning'
+WHEN HOUR(sale_time) BETWEEN 13 AND 17 THEN  'Afternoon'
+WHEN HOUR(sale_time) BETWEEN 18  AND 21 THEN 'Evening'
+ ELSE
+ 'Night'
+END shift
+FROM retail_sales_analysis
+GROUP BY shift
+ORDER BY 
+CASE
+WHEN shift = 'Morning' THEN 1
+WHEN shift = 'Afternoon' THEN 2
+WHEN shift = 'Evening' THEN 3
+WHEN shift = 'Night' THEN 4
+END;
+
+
+
+
+
 
 📊 Sample Insights
 
