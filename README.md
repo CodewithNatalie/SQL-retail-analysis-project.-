@@ -25,8 +25,8 @@ The goal is to perform data cleaning, exploratory analysis, and business insight
 
 ## DATA EXPLORATION AND CLEANING
 
-** Data Cleaning – handling missing values.**
-  ...sql
+** Data Cleaning – handling missing values.**:
+...sql
 
   
 
